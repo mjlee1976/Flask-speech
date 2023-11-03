@@ -81,8 +81,9 @@ def audioupload():
     blob_client.upload_blob(data,blob_type="BlockBlob")
 
     print(blob_client.url)
+    returnData = {'result': 'OK', 'filename': blob_client.url}
 
-    return blob_client.url
+    return returnData
 
 @bp.route('/mp3upload', methods=["POST"])
 def mp3upload():
@@ -92,7 +93,8 @@ def mp3upload():
 
     sound = AudioSegment.from_wav(f)
     #sound = AudioSegment.from_mp3(f)
-    audio_data =sound.export("bb.mp3", format="mp3")
+    file_name = str(uuid.uuid4()) + ".mp3"
+    audio_data =sound.export(file_name, format="mp3")
 
     data=audio_data
 
@@ -102,6 +104,10 @@ def mp3upload():
 
     blob_client.upload_blob(data,blob_type="BlockBlob")
 
-    print(blob_client.url)
 
-    return blob_client.url
+    returnData = {'result': 'OK', 'filename': blob_client.url}
+
+
+    if os.path.isfile(file_name): os.remove(file_name)
+
+    return returnData

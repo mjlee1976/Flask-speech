@@ -425,9 +425,9 @@ var accuracyscore = document.getElementById('accuracyscore');
         recordingsList.appendChild(li);
 
         var request = new XMLHttpRequest();
-        //request.open('POST', '/SST/ackaud', true);
+        request.open('POST', '/SST/ackaud', true);
         //request.open('POST', '/test/voice', true);
-        request.open('POST', '/portfolio/mp3upload', true);
+        //request.open('POST', '/portfolio/mp3upload', true);
 
         // Callback function for when request completes
         request.onload = () => {

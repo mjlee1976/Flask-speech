@@ -111,3 +111,16 @@ def mp3upload():
     if os.path.isfile(file_name): os.remove(file_name)
 
     return returnData
+
+@bp.route('/pngupload', methods=["POST"])
+def pngupload():
+    ff = request.files['audio_data']
+
+    data=ff
+
+    local_file_name = str(uuid.uuid4()) + ".png"
+    blob_client = blob_service_client.get_blob_client(container=container_name, blob=local_file_name)
+    blob_client.upload_blob(data, blob_type="BlockBlob")
+    returnData = {'result': 'OK', 'filename': blob_client.url}
+
+    return returnData

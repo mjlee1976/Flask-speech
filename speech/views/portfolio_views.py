@@ -7,6 +7,7 @@ from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 import io
 import os
 import uuid
+from werkzeug.utils import secure_filename
 from azure.identity import DefaultAzureCredential
 
 
@@ -99,14 +100,9 @@ def mp3upload():
     data=audio_data
 
     local_file_name = str(uuid.uuid4()) + ".mp3"
-
     blob_client = blob_service_client.get_blob_client(container=container_name, blob=local_file_name)
-
     blob_client.upload_blob(data,blob_type="BlockBlob")
-
-
     returnData = {'result': 'OK', 'filename': blob_client.url}
-
 
     if os.path.isfile(file_name): os.remove(file_name)
 
@@ -114,13 +110,22 @@ def mp3upload():
 
 @bp.route('/pngupload', methods=["POST"])
 def pngupload():
-    ff = request.files['audio_data']
 
-    data=ff
+    ff = request.files['Filedata']
+    filename=ff.filename
+
+    imgfile=ff.save(secure_filename(filename))
+    #data=imgfile
 
     local_file_name = str(uuid.uuid4()) + ".png"
-    blob_client = blob_service_client.get_blob_client(container=container_name, blob=local_file_name)
-    blob_client.upload_blob(data, blob_type="BlockBlob")
-    returnData = {'result': 'OK', 'filename': blob_client.url}
+    print("**local_file_name: " , local_file_name)
+    print("imgfile: " , imgfile)
+    print("=================================================================================")
 
+    blob_client = blob_service_client.get_blob_client(container=container_name, blob=local_file_name)
+    with open(filename, "rb") as data:
+        blob_client.upload_blob(data, blob_type="BlockBlob")
+
+    returnData = {'result': 'OK', 'filename': blob_client.url}
+    if os.path.isfile(filename): os.remove(filename)
     return returnData

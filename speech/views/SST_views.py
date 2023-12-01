@@ -54,7 +54,7 @@ def ackaud():
 
     # build pronunciation assessment parameters
     referenceText = reftext
-    pronAssessmentParamsJson = "{\"ReferenceText\":\"%s\",\"GradingSystem\":\"HundredMark\",\"Dimension\":\"Comprehensive\",\"EnableMiscue\":\"True\"}" % referenceText
+    pronAssessmentParamsJson = "{\"ReferenceText\":\"%s\",\"GradingSystem\":\"HundredMark\",\"Granularity\": \"Phoneme\",\"Dimension\":\"Comprehensive\",\"EnableMiscue\":\"True\"}" % referenceText
     pronAssessmentParamsBase64 = base64.b64encode(bytes(pronAssessmentParamsJson, 'utf-8'))
     pronAssessmentParams = str(pronAssessmentParamsBase64, "utf-8")
 

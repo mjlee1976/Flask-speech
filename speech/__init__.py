@@ -17,10 +17,11 @@ def create_app():
     migrate.init_app(app, db)
 
     # 블루프린트
-    from .views import main_views,SST_views,TTS_views,test_views, portfolio_views
+    from .views import main_views,SST_views,TTS_views,test_views, portfolio_views, grammar_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(SST_views.bp)
     app.register_blueprint(TTS_views.bp)
     app.register_blueprint(test_views.bp)
     app.register_blueprint(portfolio_views.bp)
+    app.register_blueprint(grammar_views.bp)
     return app

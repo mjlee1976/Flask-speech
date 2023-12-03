@@ -102,7 +102,7 @@ def mp3upload():
     local_file_name = str(uuid.uuid4()) + ".mp3"
     blob_client = blob_service_client.get_blob_client(container=container_name, blob=local_file_name)
     my_content_settings = ContentSettings(content_type='audio/mpeg')
-    blob_client.upload_blob(data,blob_type="BlockBlob")
+    blob_client.upload_blob(data,blob_type="BlockBlob", content_settings=my_content_settings)
     returnData = {'result': 'OK', 'filename': blob_client.url}
 
     if os.path.isfile(file_name): os.remove(file_name)
